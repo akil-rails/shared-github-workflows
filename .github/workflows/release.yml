@@ -33,13 +33,9 @@ jobs:
         - name: get release tag
           id: extract_tag # Assign an ID to reference outputs
           run: |
-            # Read the release.properties file
-            # The file contains properties like scm.tag=your-artifact-id-1.0.0
             RELEASE_TAG=$(grep '^scm.tag=' release.properties | cut -d'=' -f2)
-            echo "Extracted release tag: ${RELEASE_TAG}"
-            # Set the extracted tag as a step output for use in subsequent steps
             echo "release_tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
-        - name: check release tag 
+        - name: echo release tag 
           run: echo ${{ steps.extract_tag.outputs.release_tag }}
         - name: release - perform (publish)
           run: mvn -B -q -ntp release:perform
@@ -56,6 +52,7 @@ jobs:
           if: steps.changelog.outputs.changelog != ''
           uses: ncipollo/release-action@v1.16.0
           with:
+            tag: ${{ steps.extract_tag.outputs.release_tag }}
             draft: false
             prerelease: true
             body: ${{ steps.changelog.outputs.changelog }}
