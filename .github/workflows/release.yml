@@ -35,7 +35,7 @@ jobs:
           run: |
             # Read the release.properties file
             # The file contains properties like scm.tag=your-artifact-id-1.0.0
-            RELEASE_TAG=$(grep '^scm.tag=' target/release.properties | cut -d'=' -f2)
+            RELEASE_TAG=$(grep '^scm.tag=' release.properties | cut -d'=' -f2)
             echo "Extracted release tag: ${RELEASE_TAG}"
             # Set the extracted tag as a step output for use in subsequent steps
             echo "release_tag=${RELEASE_TAG}" >> "$GITHUB_OUTPUT"
