@@ -41,7 +41,8 @@ jobs:
             myToken: ${{ secrets.GITHUB_TOKEN }}
             fetch: false
             reverse: true
-        - name: Create Release          
+        - name: Create Release
+          if: steps.changelog.outputs.changelog != ''
           uses: ncipollo/release-action@v1.16.0
           with:
             draft: false
