@@ -18,15 +18,15 @@ jobs:
         - uses: actions/checkout@v4
           with:          
             fetch-depth: 0
-        - name: bot user
-          run: |
-            echo "The github.actor value is: '${{ github.actor }}'"
-            git config user.name "${{ github.actor }}"
         - uses: actions/setup-java@v4.7.1
           with:
             java-version: ${{ matrix.java-version }}
             distribution: ${{ matrix.distribution }}
             cache: 'maven'
+        - name: bot user
+          run: |
+            echo "The github.actor value is: '${{ github.actor }}'"
+            git config user.name "${{ github.actor }}"
         - name: release - prepare
           run: mvn -B --no-transfer-progress release:prepare
         - name: release - perform (publish)
