@@ -23,7 +23,7 @@ jobs:
             java-version: ${{ matrix.java-version }}
             distribution: ${{ matrix.distribution }}
             cache: 'maven'
-        - name: bot user
+        - name: Setup User
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
             git config user.name "${{ github.actor }}"
@@ -33,4 +33,18 @@ jobs:
         - name: release - perform (publish)
           run: mvn --no-transfer-progress release:perform
           env:
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
+        - name: Generate changelog
+          id: changelog
+          uses: metcalfc/changelog-generator@v4.6.2
+          with:
+            myToken: ${{ secrets.GITHUB_TOKEN }}
+            fetch: false
+            reverse: true
+        - name: Create Release          
+          uses: ncipollo/release-action@v1.16.0
+          with:
+            draft: false
+            prerelease: true
+            body: ${{ steps.changelog.outputs.changelog }}
+          
