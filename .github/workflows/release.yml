@@ -27,6 +27,7 @@ jobs:
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
             git config user.name "${{ github.actor }}"
+            git confir user.email "${{ github.actor }}@users.noreply.github.com"
         - name: release - prepare
           run: mvn -B --no-transfer-progress release:prepare
         - name: release - perform (publish)
