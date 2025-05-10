@@ -1,0 +1,36 @@
+name: Maven Release Workflow
+
+on:
+  workflow_call:
+    secrets:
+      GITHUB_TOKEN:
+        required: true
+
+permissions:
+  contents: write
+  packages: write
+  
+jobs:
+  release:    
+    strategy:
+      matrix:
+        java-version: [ 21 ]
+        distribution: [ temurin ]
+    runs-on: ubuntu-latest
+    steps:
+        - uses: actions/checkout@v4
+          with:          
+            fetch-depth: 0
+        - name: bot user
+          run: git config user.name "${{ github.actor }}"
+        - uses: actions/setup-java@v4.7.1
+          with:
+            java-version: ${{ matrix.java-version }}
+            distribution: ${{ matrix.distribution }}
+            cache: 'maven'
+        - name: release - prepare
+          run: mvn -B --no-transfer-progress release:prepare
+        - name: release - perform (publish)
+          run: mvn --no-transfer-progress release:perform
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
