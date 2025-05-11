@@ -34,7 +34,7 @@ jobs:
           run: |
             cat ~/.m2/settings.xml
             echo "PKG_USERNAME: ${PKG_USERNAME}"
-            echo "PKG_PASSWORD: ${PKG_PASSWORD}"
+            echo "PKG_PASSWORD: ${#PKG_PASSWORD}"
         - name: Setup User
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
