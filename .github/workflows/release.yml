@@ -30,6 +30,8 @@ jobs:
             server-id: github
             server-username: PKG_USERNAME
             server-password: PKG_PASSWORD
+        - name: See settings.xml
+          run: cat ~/.m2/settings.xml
         - name: Setup User
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
