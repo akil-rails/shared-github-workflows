@@ -6,6 +6,10 @@ on:
 permissions:
   contents: write
   packages: write
+
+env:
+  PKG_USERNAME: akil-rails
+  PKG_PASSWORD: ${{ secrets.PAT }}
   
 jobs:
   release:    
@@ -24,8 +28,8 @@ jobs:
             distribution: ${{ matrix.distribution }}
             cache: 'maven'
             server-id: github
-            server-username: akil-rails
-            server-password: ${{ secrets.PAT }}
+            server-username: PKG_USERNAME
+            server-password: PKG_PASSWORD
         - name: Setup User
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
