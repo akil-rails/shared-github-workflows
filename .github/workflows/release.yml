@@ -52,7 +52,7 @@ jobs:
           id: filter_changelog
           run: |
             set -o noglob
-            log=$(cat << "EOF" | grep -v -E 'chore\(release\)' | tac
+            log=$(cat << "EOF" | grep -v -E 'chore\(release\)'
             ${{ steps.changelog.outputs.changelog }}
             EOF
             )
