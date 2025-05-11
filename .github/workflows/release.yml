@@ -23,6 +23,7 @@ jobs:
             java-version: ${{ matrix.java-version }}
             distribution: ${{ matrix.distribution }}
             cache: 'maven'
+            server-id: github
         - name: Setup User
           run: |
             echo "The github.actor value is: '${{ github.actor }}'"
