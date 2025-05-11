@@ -51,14 +51,17 @@ jobs:
         - name: Filter changelog
           id: filter_changelog
           run: |
+            echo '${{ steps.changelog.outputs.changelog }}'
             set -o noglob
             log=$(cat << "EOF" | grep -v -E 'chore\(release\)' | tac
             ${{ steps.changelog.outputs.changelog }}
             EOF
             )
+            echo $log
             log="${log//'%'/'%25'}"
             log="${log//$'\n'/'%0A'}"
             log="${log//$'\r'/'%0D'}"
+            echo $log
             echo "changelog=$log" >> $GITHUB_OUTPUT
         - name: Create Release
           if: steps.changelog.outputs.changelog != ''
