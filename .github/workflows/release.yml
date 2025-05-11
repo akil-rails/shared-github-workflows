@@ -46,8 +46,20 @@ jobs:
           uses: metcalfc/changelog-generator@v4.6.2
           with:
             myToken: ${{ secrets.GITHUB_TOKEN }}
-            fetch: true
+            fetch: false
             reverse: false
+        - name: Filter changelog
+          id: filter_changelog
+          run: |
+            set -o noglob
+            log=$(cat << "EOF" | grep -v -E 'chore\(release\)' | tac
+            ${{ steps.changelog.outputs.changelog }}
+            EOF
+            )
+            log="${log//'%'/'%25'}"
+            log="${log//$'\n'/'%0A'}"
+            log="${log//$'\r'/'%0D'}"
+            echo "changelog=$log" >> $GITHUB_OUTPUT
         - name: Create Release
           if: steps.changelog.outputs.changelog != ''
           uses: ncipollo/release-action@v1.16.0
@@ -55,5 +67,5 @@ jobs:
             tag: ${{ steps.extract_tag.outputs.release_tag }}
             draft: false
             prerelease: false
-            body: ${{ steps.changelog.outputs.changelog }}
+            body: ${{ steps.filter_changelog.outputs.changelog }}
           
