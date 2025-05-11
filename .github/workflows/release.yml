@@ -29,7 +29,7 @@ jobs:
             git config user.name "${{ github.actor }}"
             git config user.email "${{ github.actor }}@users.noreply.github.com"
         - name: release - prepare
-          run: mvn -B -q -ntp release:prepare
+          run: mvn -B -q -ntp release:prepare -P release
         - name: get release tag
           id: extract_tag # Assign an ID to reference outputs
           run: |
@@ -38,7 +38,7 @@ jobs:
         - name: echo release tag 
           run: echo ${{ steps.extract_tag.outputs.release_tag }}
         - name: release - perform (publish)
-          run: mvn -B -q -ntp release:perform
+          run: mvn -B -q -ntp release:perform -P release
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}        
         - name: Generate changelog
