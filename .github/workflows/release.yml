@@ -56,7 +56,11 @@ jobs:
             ${{ steps.changelog.outputs.changelog }}
             EOF
             )
-            echo "changelog=$log" >> $GITHUB_OUTPUT
+            {
+              echo "changelog<<EOF"
+              echo "$log"
+              echo "EOF"
+            } >> "$GITHUB_OUTPUT"            
         - name: Create Release
           if: steps.changelog.outputs.changelog != ''
           uses: ncipollo/release-action@v1.16.0
