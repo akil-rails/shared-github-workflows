@@ -46,7 +46,7 @@ jobs:
           uses: metcalfc/changelog-generator@v4.6.2
           with:
             myToken: ${{ secrets.GITHUB_TOKEN }}
-            fetch: false
+            fetch: true
             reverse: false
         - name: Create Release
           if: steps.changelog.outputs.changelog != ''
