@@ -54,6 +54,6 @@ jobs:
           with:
             tag: ${{ steps.extract_tag.outputs.release_tag }}
             draft: false
-            prerelease: true
+            prerelease: false
             body: ${{ steps.changelog.outputs.changelog }}
           
